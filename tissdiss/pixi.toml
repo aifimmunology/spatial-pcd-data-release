@@ -5,7 +5,9 @@ name = "spatial-pcd-data-release"
 platforms = ["linux-64"]
 version = "0.1.0"
 
+
 [tasks]
+kernel = "python -m ipykernel install --user --name TissDiss --display-name 'Python (TissDiss)'"
 
 [dependencies]
 seaborn = ">=0.13.2,<0.14"
