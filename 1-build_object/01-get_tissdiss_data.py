@@ -96,7 +96,7 @@ def download_one_file(file_name):
         raise RuntimeError("download returned False")
     return file_name
 
-max_workers = 8
+max_workers = 24
 results = []
 errors = []
 with ThreadPoolExecutor(max_workers=max_workers) as executor:
