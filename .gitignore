@@ -35,3 +35,7 @@
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+
+# LaminDB instance (database, artifact store) and its run-report cache
+.lamindb*
+.cache/

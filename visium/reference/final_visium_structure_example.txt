@@ -1,0 +1,26 @@
+Visium/
+├── sample_001/
+│   ├── gene_expression/
+│   │   ├── raw/
+│   │   │   └── sample_001_raw_feature_bc_matrix.h5
+│   │   ├── processed/
+│   │   │   ├── sample_001_filtered_feature_bc_matrix.h5
+│   │   │   └── sample_001_molecule_info.h5
+│   │   └── spatial/
+│   │       ├── sample_001_tissue_hires_image.png
+│   │       ├── sample_001_tissue_lowres_image.png
+│   │       ├── sample_001_tissue_positions.csv
+│   │       ├── sample_001_scalefactors_json.json
+│   │       └── sample_001_aligned_fiducials.jpg
+│   ├── ADT_conventional/
+│   │   ├── raw/
+│   │   │   └── sample_001_ADT_raw_feature_bc_matrix.h5
+│   │   └── processed/
+│   │       └── sample_001_ADT_filtered_feature_bc_matrix.h5
+│   ├── ADT_CST_bridge/
+│   │   ├── raw/
+│   │   │   └── sample_001_CST_raw_feature_bc_matrix.h5
+│   │   └── processed/
+│   │       └── sample_001_CST_filtered_feature_bc_matrix.h5
+│   └── sample_001_web_summary.html
+sample_001_H&E

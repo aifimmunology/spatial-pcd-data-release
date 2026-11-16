@@ -1,0 +1,22 @@
+{
+  "_comment": "Leiden cluster -> cell type labels. Cluster ids are only meaningful for the exact 03_process.py run that produced them (resolution, seed, harmony on/off). Re-check against tables/03_marker_genes.csv after any re-run. 04_figures.py skips the cell-type figure if any cluster present in the data is missing here.",
+  "map": {
+    "0": "Erythroblast_1",
+    "1": "Macrophage",
+    "2": "Monocyte",
+    "3": "Endothelial_1",
+    "4": "Monocyte/Macrophage",
+    "5": "Stromal/Fibroblast",
+    "6": "Tumor-Associated Macrophage",
+    "7": "Neoplasm_1",
+    "8": "Erythroblast_2",
+    "9": "Neutrophil",
+    "10": "Neoplasm_2",
+    "11": "Neoplasm_3",
+    "12": "Cytotoxic T Cell",
+    "13": "Neoplasm_4",
+    "14": "Myeloid",
+    "15": "Neoplasm_5",
+    "16": "Endothelial_2"
+  }
+}

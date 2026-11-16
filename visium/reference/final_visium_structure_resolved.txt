@@ -1,0 +1,54 @@
+RESOLVED Visium GEO deliverable layout
+======================================
+Reconciles reference/final_visium_structure_example.txt against the ACTUAL
+Space Ranger output of the processed runs (see scripts/compare_template_vs_output.py
+and data/crosscheck/template_vs_output_*.{csv,txt}).
+
+Scope: 27 DISTINCT processed runs (the "31" headline includes 4 exact-duplicate
+rows in adt_presence.csv: SB008 EXP-01092 TIS06377-001 / TIS06392-002 and
+EXP-01095 TIS05681-001 / TIS05683-001).
+
+All template-required source files are present in every run. Changes vs the
+original example template are marked [+] added, [~] renamed/normalized,
+[x] deliberately excluded.
+
+Visium/
+└── sample_XXX/                                   # comps-assigned id (TBD)
+    ├── gene_expression/
+    │   ├── raw/
+    │   │   └── sample_XXX_raw_feature_bc_matrix.h5          # GEX-only split of outs/raw_feature_bc_matrix.h5
+    │   ├── processed/
+    │   │   ├── sample_XXX_filtered_feature_bc_matrix.h5     # GEX-only split of outs/filtered_feature_bc_matrix.h5
+    │   │   └── sample_XXX_molecule_info.h5
+    │   ├── spatial/
+    │   │   ├── sample_XXX_tissue_hires_image.png
+    │   │   ├── sample_XXX_tissue_lowres_image.png
+    │   │   ├── sample_XXX_tissue_positions.csv             # new SR name; no run uses tissue_positions_list.csv
+    │   │   ├── sample_XXX_scalefactors_json.json
+    │   │   ├── sample_XXX_aligned_fiducials.jpg
+    │   │   ├── sample_XXX_detected_tissue_image.jpg        # [+] spatial QC (27/27)
+    │   │   ├── sample_XXX_aligned_tissue_image.jpg         # [+] spatial QC (9/27 — newer SR only; omit when absent)
+    │   │   └── sample_XXX_spatial_enrichment.csv           # [+] spatial QC (27/27)
+    │   └── probe/                                          # [+] probe-assay artifacts (27/27)
+    │       ├── sample_XXX_probe_set.csv
+    │       └── sample_XXX_raw_probe_bc_matrix.h5
+    ├── ADT_conventional/
+    │   ├── raw/
+    │   │   └── sample_XXX_ADT_raw_feature_bc_matrix.h5     # Antibody-Capture-only split of raw matrix
+    │   ├── processed/
+    │   │   └── sample_XXX_ADT_filtered_feature_bc_matrix.h5 # Antibody-Capture-only split of filtered matrix
+    │   └── sample_XXX_isotype_normalization_factors.csv    # [+] ADT normalization (27/27)
+    ├── ADT_CST_bridge/                                     # NO SOURCE in any run — unresolved
+    │   └── (pending feature_reference.csv panel comparison / comps decision)
+    ├── sample_XXX_metrics_summary.csv                      # [+] per-run QC summary (27/27)
+    ├── sample_XXX_web_summary.html                         # [~] EXP00897/EXP00898 ship web_summary_exp89x.html → rename
+    └── sample_XXX_H&E.<ext>                                # EVOS microscopy image; fallback outs/spatial/cytassist_image.tiff
+
+Deliberately EXCLUDED (present in outs/ but not carried):
+  [x] possorted_genome_bam.bam (+ .bai)   23/27  — large; GEO raw = FASTQ, not BAM
+  [x] analysis/                           27/27  — clustering/diffexp derivatives
+  [x] deconvolution/                      27/27  — derived
+  [x] raw_feature_bc_matrix/  (MTX dir)   27/27  — redundant with the .h5
+  [x] filtered_feature_bc_matrix/ (MTX)   27/27  — redundant with the .h5
+  [x] cloupe.cloupe                       27/27  — interactive Loupe file, not a GEO deliverable
+  [x] .ipynb_checkpoints/                 12/27  — notebook scratch

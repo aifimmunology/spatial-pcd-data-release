@@ -1,0 +1,54 @@
+{
+  "_comment": [
+    "Per-sample QC cutoffs, read by 01_qc.py (preview) and 02_qc_apply.py (apply).",
+    "A spot is DROPPED when it fails any of its sample's cuts:",
+    "  n_genes_by_counts <= min_genes,  total_counts <= min_counts,  pct_counts_mt >= max_pct_mt",
+    "Precedence: built-in fallback -> this file's 'default' -> CLI flags -> this file's 'per_sample'.",
+    "A sample listed under per_sample ignores the CLI flags: edit its entry here instead.",
+    "Omit any key inside a per_sample entry to inherit it from 'default'.",
+    "Re-run `pixi run qc` after editing to see the consequences before applying."
+  ],
+
+  "default": {
+    "min_genes": 4,
+    "min_counts": 4,
+    "max_pct_mt": 20
+  },
+
+  "_derivation": [
+    "Set 2026-08-06 under a hard constraint: DROP AT MOST 10% OF SPOTS PER SAMPLE.",
+    "Each sample's cut is therefore the largest threshold whose union drop",
+    "(counts OR genes OR mito) still fits under 10% of that sample - derived from",
+    "the sample's own quantiles, walking observed values because counts are",
+    "discrete with heavy ties at 1-5 UMIs (a plain 10th-percentile call overshoots).",
+    "Realised drop per sample: TIS05393 9.98%, TIS05394 9.93%, TIS04789 8.95%,",
+    "TIS04788 8.61%, TIS05397 7.24%, TIS05392 6.12%. Overall 91.9% of spots kept.",
+    "",
+    "CONSEQUENCE, on the record: the 10% cap binds well below the distribution",
+    "structure on the four weaker captures. TIS05397 / TIS04788 / TIS04789 /",
+    "TIS05392 are bimodal (a near-empty mode at 4-19 UMIs and a tissue mode at",
+    "113-992), and the valley between those modes sits at 40-131 counts - far",
+    "above what a 10% budget allows. Cutting at 0-4 counts keeps the near-empty",
+    "mode almost entirely: median counts among KEPT spots is 7 (TIS05392),",
+    "16 (TIS04788) and 25 (TIS05397), against 302 and 170 for the two good",
+    "captures. Those spots carry little signal and will still be clustered,",
+    "normalised and embedded downstream.",
+    "The previous mode-based cutoffs are preserved in git history if the cap is",
+    "ever relaxed; see 01_qc_overview.pdf (histogram row) for the mode structure."
+  ],
+
+  "per_sample": {
+    "TIS05393": { "min_genes": 14, "min_counts": 19,
+                  "_note": "unimodal capture; the cap is the binding constraint, drops 9.98%" },
+    "TIS05394": { "min_genes": 22, "min_counts": 26,
+                  "_note": "unimodal capture; the cap is the binding constraint, drops 9.93%" },
+    "TIS05397": { "min_genes": 4, "min_counts": 4,
+                  "_note": "bimodal, valley at 131; cap allows only 4 -> drops 7.24%, near-empty mode retained" },
+    "TIS04788": { "min_genes": 2, "min_counts": 2,
+                  "_note": "bimodal, valley at 88; cap allows only 2 -> drops 8.61%, near-empty mode retained" },
+    "TIS04789": { "min_genes": 4, "min_counts": 4,
+                  "_note": "weakly bimodal, valley at 58; cap allows only 4 -> drops 8.95%" },
+    "TIS05392": { "min_genes": 0, "min_counts": 0,
+                  "_note": "no threshold above 0 fits the cap (>10% of spots sit at 1 UMI); drops 6.12%, i.e. zero-count spots and mito outliers only" }
+  }
+}
